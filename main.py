@@ -100,10 +100,26 @@ def get_db():
     logging.info(f"jiiu: {db.jiiu}, b2: {db.b2}, nombre: {db.nombre}, contador: {db.contador}, slider: {db.slider}")
 
 
+def write_int(db, start_byte, int_value):
+    data = bytearray(2)
+    snap7.util.set_int(data, 0, int_value)
+    client.db_write(db, start_byte, data)
+
+
+cont = 0
+
+
+def write_contador():
+    global cont
+    write_int(2, 14, cont)
+    cont = cont + 1
+
+
 if __name__ == '__main__':
     # client.disconnect()
     scheduler = AsyncIOScheduler()
-    scheduler.add_job(get_db, 'interval', seconds=0.5)
+    scheduler.add_job(write_contador, 'interval', seconds=0.5)
+    # scheduler.add_job(get_db, 'interval', seconds=0.5)
     # scheduler.add_job(call_read_plc, 'interval', seconds=0.5)
     # scheduler.add_job(read_plc_string, 'interval', seconds=0.8)
     scheduler.start()

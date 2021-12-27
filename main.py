@@ -91,11 +91,14 @@ items = [
         "bytebit": x.split(deliminator)[2]
     } for x in itemlist
 ]
+
+
 def get_db():
     # get length of datablock
     length = get_db_size(items, 'bytebit', 'datatype')
     db = DBRead(client, 2, length, items)
     logging.info(f"jiiu: {db.jiiu}, b2: {db.b2}, nombre: {db.nombre}, contador: {db.contador}, slider: {db.slider}")
+
 
 if __name__ == '__main__':
     # client.disconnect()
